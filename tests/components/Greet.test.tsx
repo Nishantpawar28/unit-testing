@@ -1,7 +1,5 @@
-import { render, screen } from "@testing-library/react";
-import { describe, expect, it } from "vitest";
+import { render, screen } from '@testing-library/react'
 import Greet from "../../src/components/Greet";
-import "@testing-library/jest-dom/vitest";
 
 describe("Greet", () => {
   it("should render Hello with passed name prop if prop is passed to the component", () => {

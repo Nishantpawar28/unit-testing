@@ -5,6 +5,7 @@
     "lib": ["ES2020", "DOM", "DOM.Iterable"],
     "module": "ESNext",
     "skipLibCheck": true,
+    "types": ["vitest/globals"],  //we dont have to import "it", "describe" methods in each test file
 
     /* Bundler mode */
     "moduleResolution": "bundler",
