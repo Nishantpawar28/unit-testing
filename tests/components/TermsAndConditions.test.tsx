@@ -1,42 +1,35 @@
-import { render, screen } from '@testing-library/react';
-import TermsAndConditions from '../../src/components/TermsAndConditions';
-import userEvent from '@testing-library/user-event';
-
-
+import { render, screen } from "@testing-library/react";
+import TermsAndConditions from "../../src/components/TermsAndConditions";
+import userEvent from "@testing-library/user-event";
 
 describe("TermsAndConditions", () => {
-    it("should render heading", () => {
-        render(<TermsAndConditions />);
-        const heading = screen.getByRole("heading");
-        expect(heading).toBeInTheDocument();
-        expect(heading).toHaveTextContent("Terms & Conditions")
-    })
+  const renderComponent = () => {
+    render(<TermsAndConditions />);
 
-    it("checks if input box is unchecked" , () => {
-        render(<TermsAndConditions />);
-        const checkbox = screen.getByRole("checkbox");
-        expect(checkbox).toBeInTheDocument();
-        expect(checkbox).not.toBeChecked()
-    })
+    return {
+      heading: screen.getByRole("heading"),
+      button: screen.getByRole("button"),
+      checkbox: screen.getByRole("checkbox"),
+    };
+  };
 
-    it("checks if button is disabled initially" , () => {
-        render(<TermsAndConditions />);
-        const checkbox = screen.getByRole("button");
-        expect(checkbox).toBeInTheDocument();
-        expect(checkbox).toBeDisabled();
-    })
+  it("should render correct text and initial state", () => {
+    const {heading, button, checkbox} = renderComponent()
 
-    it("should enable the button when checkbox is checked" , async () => {
-        render(<TermsAndConditions />);
-        
-        const user = userEvent.setup();
-        const checkbox = screen.getByRole("checkbox");
-        await user.click(checkbox)     // click function returns promise
+    expect(heading).toHaveTextContent("Terms & Conditions");
+    expect(checkbox).not.toBeChecked();
+    expect(button).toBeDisabled();
+  });
 
-        expect(screen.getByRole("button")).toBeEnabled();  //Should enable on first click
+  it("should enable the button when checkbox is checked", async () => {
+    const {button, checkbox} = renderComponent()
 
-        
-        await user.click(checkbox)
-        expect(screen.getByRole("button")).toBeDisabled();  //Should disable on second click
-    })
-})
+    const user = userEvent.setup();
+    await user.click(checkbox); // click function returns promise
+
+    expect(button).toBeEnabled(); //Should enable on first click
+
+    await user.click(checkbox);
+    expect(button).toBeDisabled(); //Should disable on second click
+  });
+});
